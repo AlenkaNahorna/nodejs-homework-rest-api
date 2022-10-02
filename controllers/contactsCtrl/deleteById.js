@@ -4,8 +4,8 @@ const { NotFound } = require("http-errors");
 
 const deleteById = async (req, res) => {
   const { id } = req.params;
-  const contacts = await contactsOperations.removeContact(id);
-  if (!contacts) {
+  const contact = await contactsOperations.removeContact(id);
+  if (!contact) {
     throw new NotFound(`Product with id=${id} not found`);
   }
   res.json({
@@ -13,7 +13,7 @@ const deleteById = async (req, res) => {
     message: "contact deleted",
     code: 200,
     data: {
-      result: contacts,
+      result: contact,
     },
   });
 };
