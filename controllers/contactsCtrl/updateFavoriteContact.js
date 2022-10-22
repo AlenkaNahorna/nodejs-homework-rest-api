@@ -2,9 +2,9 @@ const { Contact } = require("../../models/contact");
 
 const { NotFound } = require("http-errors");
 
-const getById = async (req, res) => {
+const updateFavoriteContact = async (req, res) => {
   const { id } = req.params;
-  const contact = await Contact.findById(id);
+  const contact = await Contact.findByIdAndUpdate(id, req.body, { new: true });
   if (!contact) {
     throw new NotFound(`Product with id=${id} not found`);
   }
@@ -17,4 +17,4 @@ const getById = async (req, res) => {
   });
 };
 
-module.exports = getById;
+module.exports = updateFavoriteContact;
