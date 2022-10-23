@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { validation, ctrlWrapper } = require("../../middlewares");
+const { validation, ctrlWrapper, authenticate } = require("../../middlewares");
 const { schemas } = require("../../models/user");
 const ctrl = require("../../controllers/auth");
 
@@ -13,5 +13,16 @@ router.post(
 );
 
 router.post("/login", validation(schemas.loginSchema), ctrlWrapper(ctrl.login));
+
+router.get("/current", authenticate, ctrlWrapper(ctrl.getCurrent));
+
+router.get("/logout", authenticate, ctrlWrapper(ctrl.logout));
+
+router.patch(
+  "/subscription/:subscription",
+  authenticate,
+  validation(schemas.updateSubscriptionSchema),
+  ctrlWrapper(ctrl.updateSubscription)
+);
 
 module.exports = router;

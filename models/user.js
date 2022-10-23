@@ -7,10 +7,6 @@ const emailRegexp = /^[\w.]+@[\w]+.[\w]+$/;
 
 const userSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: [true, "Name is required"],
-    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -37,7 +33,6 @@ const userSchema = new Schema(
 userSchema.post("save", handleSaveErrors);
 
 const registerSchema = Joi.object({
-  name: Joi.string().required(),
   password: Joi.string().min(6).required(),
   email: Joi.string().pattern(emailRegexp).required(),
   subscription: Joi.string(),
@@ -48,16 +43,17 @@ const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
 });
 
-// const updateSubscriptionSchema = Joi.object({
-//   subscription: Joi.string()
-//     .required()
-//     .valid("starter", "pro", "business")
-//     .error(new Error("Choose one of them: starter, pro or business")),
-// });
+const updateSubscriptionSchema = Joi.object({
+  subscription: Joi.string()
+    .required()
+    .valid("starter", "pro", "business")
+    .error(new Error("Choose one of them: starter, pro or business")),
+});
 
 const schemas = {
   registerSchema,
   loginSchema,
+  updateSubscriptionSchema,
 };
 
 const User = model("user", userSchema);
