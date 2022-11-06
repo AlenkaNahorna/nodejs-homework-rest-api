@@ -23,6 +23,14 @@ router.get("/current", authenticate, ctrlWrapper(ctrl.getCurrent));
 
 router.get("/logout", authenticate, ctrlWrapper(ctrl.logout));
 
+router.get("/verify/:verificationToken", ctrlWrapper(ctrl.verify));
+
+router.post(
+  "/verify",
+  validation(schemas.verifyEmailSchema),
+  ctrlWrapper(ctrl.resendEmail)
+);
+
 router.patch(
   "/subscription",
   authenticate,
